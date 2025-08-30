@@ -1,8 +1,13 @@
 
 Pending Steps:-
-0. get the datasets
+0. Get the datasets
 1. Incorporate Hubness metric into algorithm
-2. Reporting of the dataset characterstics - Hubness metrics
+2. Reporting of the dataset characterstics -  
+    a) No. of rows
+    b) No. of columns
+    c) Multi Response / Single Response
+    d) Imbalance ratio
+    e) Good hub and bad hub metrics    
 3. Cross validation to determine the best level of resampling
 4. Documentation of the repo
 5. Optimize the code
@@ -12,4 +17,3 @@ Pending Steps:-
 
 /domino/datasets/local/smote_msfb/tencent_data/
 
-repos/smote_msfb/public_datasets/data_dump_public_datasets.zip

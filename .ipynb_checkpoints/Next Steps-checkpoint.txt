@@ -1,7 +1,5 @@
 
 Pending Steps:-
-0. Get the datasets
-    - Completed: scale, bibtex, polarity, tmc2007, medical, genbase, enron, delicious, corel5K, bookmarks
 1. Incorporate Hubness metric into algorithm
 2. Reporting of the dataset characterstics -  All data folders will have a file named processed_dataset.parquet which will be processed and aggregated metrics stored
     0) Domain of dataset

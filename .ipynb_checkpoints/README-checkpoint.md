@@ -10,8 +10,7 @@ a novel resampling method designed for high-dimensional, sparse binary datasets.
 - **Union-based synthesis:** Generates synthetic samples by combining (“union voting”) feature activations across neighbors, which increases signal strength in sparse binary spaces.  
 - **Separation of tasks:** Feature selection for classification is performed **after** resampling, since the optimal features for generating synthetic samples may differ from those needed for classification.  
 
-This approach improves the quality of synthetic samples, reduces noise,  
-and enhances classifier performance on imbalanced binary datasets.  
+This approach improves the quality of synthetic samples, reduces noise and enhances classifier performance on imbalanced binary datasets.  
 
 
 <img width="1036" height="487" alt="image" src="https://github.com/user-attachments/assets/e321de38-ae4f-44d3-8fdc-c7cf7f26eea8" />

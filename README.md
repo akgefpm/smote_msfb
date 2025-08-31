@@ -1,5 +1,5 @@
 
-## SMOTE-MSFB: A New Oversampling Technique for Sparse Binary Data  
+## SMOTE-MSFB: A New Oversampling Technique for Sparse High Dimensional Binary Data  
 
 We introduce **SMOTEN-Minority focused Select Features for Binary data (SMOTE-MSFB)**,  
 a novel resampling method designed for high-dimensional, sparse binary datasets.  

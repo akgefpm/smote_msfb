@@ -1,7 +1,8 @@
 
 Pending Steps:-
+0. .zip the output files 
 1. Incorporate Hubness metric into algorithm <- [THIS IS KEY ALGORITHMIC MODIFICATIO]
-2. Reporting of the dataset characterstics -  All data folders will have a file named processed_dataset.parquet which will be processed and aggregated metrics stored
+2. Reporting of the dataset characterstics -  All data folders will have a file named processed_dataset.parquet which will be processed and aggregated metrics stored. Data summary code 
     0) Domain of dataset
     a) No. of rows
     b) No. of columns
@@ -12,6 +13,7 @@ Pending Steps:-
 4. Cross validation to determine the best level of resampling
 5. Documentation of the repo and the code
 6. Optimize the code
+
 
 
 /repos/smote_msfb/helper_functions/

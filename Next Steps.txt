@@ -1,7 +1,6 @@
 
 Pending Steps:-
-0. .zip the output files 
-1. Incorporate Hubness metric into algorithm <- [THIS IS KEY ALGORITHMIC MODIFICATIO]
+1. Incorporate Hubness metric into algorithm <- [THIS IS KEY ALGORITHMIC MODIFICATION]
 2. Reporting of the dataset characterstics -  All data folders will have a file named processed_dataset.parquet which will be processed and aggregated metrics stored. Data summary code 
     0) Domain of dataset
     a) No. of rows
@@ -9,10 +8,11 @@ Pending Steps:-
     c) Multi Response / Single Response
     d) Imbalance ratio
     e) Good hub and bad hub metrics    
-3. Resampling is classification algorithm specific
+3. Resampling is classification algorithm specific <- [Need to make modification for this]
 4. Cross validation to determine the best level of resampling
-5. Documentation of the repo and the code
-6. Optimize the code
+5. MI score for limiting the no. of feature <- MI information percentage captured
+6. Documentation of the repo and the code
+7. Optimize the code
 
 
 
@@ -20,3 +20,8 @@ Pending Steps:-
 
 /domino/datasets/local/smote_msfb/tencent_data/
 
+
+Approach:
+1. Select top features from the data which contribute to 95% of the MI. This removes a lot of redundant features from the data. 
+2. Define neighbourhood based on reduced no. of features and weighted (normalized MI score) jaccard score
+3. Identify the minority samples to be used for generating synthetic samples by using Logistic

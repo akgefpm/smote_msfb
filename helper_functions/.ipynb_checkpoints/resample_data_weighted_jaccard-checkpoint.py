@@ -29,9 +29,6 @@ def resample_data_weighted_jaccard(x_train, y_train, minority_resample_list, no_
     
     ### Part 1 -> The below part selects top features from the data which contribute to 95% of the Mutual Information.
 
-    # Set your desired threshold for cumulative MI coverage
-    #perc_MI = 0.95  # e.g., keep features that together explain 90% of total MI
-
     # Compute MI scores
     mi_scores = mutual_info_classif(x_train, y_train, discrete_features=True)
 

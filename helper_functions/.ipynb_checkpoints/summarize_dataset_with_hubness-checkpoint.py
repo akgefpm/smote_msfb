@@ -31,7 +31,9 @@ def summarize_dataset_with_hubness(data, feature_prefix="f_", target_prefix="tar
             "n_samples": len(y),
             "n_features": len(features),
             "imbalance_ratio": imbalance_ratio,
-            "n_classes": counts.shape[0]
+            "n_classes": counts.shape[0],
+            "n_majority_samples": maj,
+            "n_minority_samples": mino            
         }
         result.update(hubness)
         results.append(result)

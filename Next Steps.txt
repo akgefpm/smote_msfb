@@ -8,6 +8,7 @@ Pending Steps:-
     c) Multi Response / Single Response
     d) Imbalance ratio
     e) Good hub and bad hub metrics    
+3. Cleanup code and create a single version of the function smote_msfb() with a config file for inputs
 3. Resampling is classification algorithm specific <- [Need to make modification for this]
 4. Cross validation to determine the best level of resampling
 5. MI score for limiting the no. of feature <- MI information percentage captured

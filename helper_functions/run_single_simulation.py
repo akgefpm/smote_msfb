@@ -40,6 +40,10 @@ from create_new_sampled_data import create_new_sampled_data
 from create_folder_if_not_exists import create_folder_if_not_exists
 from train_model import train_model
 
+## Inputs -> 
+
+
+
 def run_single_simulation(path, n_rows, imbalance_ratio, n_columns, n_cols_imp_var, no_of_nn, flip_y, class_sep, informative_feature_perc, mode = "new"):
     
        

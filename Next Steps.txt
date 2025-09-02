@@ -1,6 +1,15 @@
 
 Pending Steps:-
 1. Incorporate Hubness metric into algorithm <- [THIS IS KEY ALGORITHMIC MODIFICATION]
+
+3. Resampling is classification algorithm specific <- [Need to make modification for this. This is not without challenges. Probability predicted is dramatically different for different algorithms. For example, Trees can give much higher probability for the same minority sample (% of correct observations in the leaf node) hence the cut off will be diffcult to be defined. On the other hand, final metric is ROC AUC curve which is impacted across different probability cut offs.]
+
+4. Cross validation to determine the best level of resampling
+6. Documentation of the repo and the code
+7. Optimize the code
+
+
+
 2. Reporting of the dataset characterstics -  All data folders will have a file named processed_dataset.parquet which will be processed and aggregated metrics stored. Data summary code 
     0) Domain of dataset
     a) No. of rows
@@ -8,13 +17,6 @@ Pending Steps:-
     c) Multi Response / Single Response
     d) Imbalance ratio
     e) Good hub and bad hub metrics    
-3. Cleanup code and create a single version of the function smote_msfb() with a config file for inputs
-3. Resampling is classification algorithm specific <- [Need to make modification for this]
-4. Cross validation to determine the best level of resampling
-5. MI score for limiting the no. of feature <- MI information percentage captured
-6. Documentation of the repo and the code
-7. Optimize the code
-
 
 
 /repos/smote_msfb/helper_functions/

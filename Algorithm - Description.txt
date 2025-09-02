@@ -1,0 +1,19 @@
+
+-> Develop a function/package to do the resampling in the specified way --->  smote_msfb()    
+    -> Key functionalities of the package
+        -> Give option to use LR as Base Learner OR user provided classification algor to identify the observations to be resampled. Condition 
+        -> Give option to determine the level of resampling via cross validation OR specify a pre-determined level.
+
+
+
+---------> The below exists and use the code as it is <--------------------
+    
+-> All other logic should be kept separate. 
+    -> Reading the datasets and data massaging 
+    -> Defining the cv spilts
+    -> Run the resampling algorithm
+    -> Run the classification algorithm
+    -> Report the results
+    -> Separate out the helper functions also
+    
+    -> Dump the parameters in a config file in output folder for later use [This is important for experimentation perspective.]

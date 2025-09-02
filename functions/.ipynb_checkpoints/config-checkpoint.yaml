@@ -1,0 +1,27 @@
+### Config file for running the SMOTE-MSFB pipeline ###
+
+main_section:
+  sampling_strategy: 1  ## Balance the no. of minority and majority samples
+  neighbours_to_consider_for_neighbourhood: 5
+
+get_minority_obs_to_resample:
+  classification_model: "LogisticRegression(max_iter=1000)"  #"DecisionTreeClassifier(max_depth=2, random_state=42)"
+  prob_threshold: 0.1
+  fallback_threshold: 0.05
+  n_estimators: 10
+  cv: 4
+  min_fraction: 0.05
+
+feature_selection:
+  Percent_MI: 0.80
+  metric: "mutual_info"
+
+synthetic_sample_generation:
+  cut_off: 0.75
+
+logging:
+  level: "INFO"
+  save_results: true
+
+## code for reproduceability 
+random_state: 5463

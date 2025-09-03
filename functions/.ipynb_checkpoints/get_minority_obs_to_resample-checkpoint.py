@@ -18,11 +18,10 @@ def get_minority_obs_to_resample(
         - List of minority-class indices to target for oversampling
         - Corresponding list of predicted probabilities for those indices
     """
-        
-    print(type(config))
+       
     class_algo = eval(config["get_minority_obs_to_resample"]["classification_model"])
-    
-    print(class_algo)
+    if config['logging']['diagnostic']:
+        print("Classification algo is :",class_algo)
     
     ## Create a bagged classifier based on the classification model supplied by user
     clf = BaggingClassifier(
@@ -53,13 +52,17 @@ def get_minority_obs_to_resample(
 
     # Fallback if too few filtered
     if len(filtered) / len(minority_indices) < config["get_minority_obs_to_resample"]["min_fraction"]:
-        print(f"Fewer than {config['get_minority_obs_to_resample']['min_fraction']} samples after filtering with threshold {config['get_minority_obs_to_resample']['prob_threshold']}. Lowering to {config['get_minority_obs_to_resample']['fallback_threshold']}.")
+        
+        if config['logging']['diagnostic']:
+            print(f"Fewer than {config['get_minority_obs_to_resample']['min_fraction']} samples after filtering with threshold {config['get_minority_obs_to_resample']['prob_threshold']}. Lowering to {config['get_minority_obs_to_resample']['fallback_threshold']}.")
+        
         filtered = [i for i in miscls if y_proba_cv[i] >= config["get_minority_obs_to_resample"]["fallback_threshold"]]
 
     # Reporting
-    print(f"Total minority samples: {len(minority_indices)}")
-    print(f"Misclassified by bagged classification models: {len(miscls)}")
-    print(f"After filtering proba < {config['get_minority_obs_to_resample']['prob_threshold']:.2f}: {len(filtered)} remain")
+    if config['logging']['diagnostic']:
+        print(f"Total minority samples: {len(minority_indices)}")
+        print(f"Misclassified by bagged classification models: {len(miscls)}")
+        print(f"After filtering proba < {config['get_minority_obs_to_resample']['prob_threshold']:.2f}: {len(filtered)} remain")
 
     # Also return probabilities for filtered samples
     filtered_probs = [y_proba_cv[i] for i in filtered]

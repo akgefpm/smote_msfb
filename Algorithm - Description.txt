@@ -1,10 +1,12 @@
 
 -> Develop a function/package to do the resampling in the specified way --->  smote_msfb()    
+    -> Incorporate Hubness metric into algorithm
+    -> Level of resampling - cross validation
+    -> BaseLearner as the classification algorithm <-- 
+
     -> Key functionalities of the package
         -> Give option to use LR as Base Learner OR user provided classification algor to identify the observations to be resampled. Condition 
         -> Give option to determine the level of resampling via cross validation OR specify a pre-determined level.
-
-
 
 ---------> The below exists and use the code as it is <--------------------
     

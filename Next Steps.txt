@@ -2,9 +2,11 @@
 Pending Steps:-
 1. Incorporate Hubness metric into algorithm <- [Incorporated]
 
-3. Resampling is classification algorithm specific <- [Need to make modification for this. This is not without challenges. Probability predicted is dramatically different for different algorithms. For example, Trees can give much higher probability for the same minority sample (% of correct observations in the leaf node) hence the cut off will be diffcult to be defined. On the other hand, final metric is ROC AUC curve which is impacted across different probability cut offs.]
+2. Resampling is classification algorithm specific <- [Need to make modification for this. This is not without challenges. Probability predicted is dramatically different for different algorithms. For example, Trees can give much higher probability for the same minority sample (% of correct observations in the leaf node) hence the cut off will be diffcult to be defined. On the other hand, final metric is ROC AUC curve which is impacted across different probability cut offs.]  <- To be done later.
 
-4. Cross validation to determine the best level of resampling
+3. Cross validation to determine the best level of resampling <- To be done later. [This piece will come in handy to handles cases with severe immbalance]
+
+4. Incorporate gmean and other accuracy metrics for classification 
 
 
 6. Documentation of the repo and the code
@@ -23,6 +25,6 @@ Pending Steps:-
 
 /domino/datasets/local/smote_msfb/tencent_data/
 
-Notes:
-1. Keep in mind that the hubness is calculated on the complete feature space where as the 
+
+
 

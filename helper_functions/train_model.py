@@ -8,35 +8,39 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import auc
 from imblearn.under_sampling import RandomUnderSampler
+from imblearn.metrics import geometric_mean_score
 
 import pickle
 import sys
 import gc
 import os
 import time
+import yaml
 
 from manual_roc_points import manual_roc_points
 from visualize_resample import visualize_resample
 from smoten_select_feature import smoten_select_feature
 from minority_focussed_smotten import minority_focussed_smotten
 
+sys.path.append('/repos/smote_msfb/functions')
+
+from smote_msfb import smote_msfb 
+from get_hubness_score_minority_class import get_hubness_score_minority_class
+
 def train_model(X_scaled, y, model, resample_model, path, version, splits):
     
     #print(" ")
-    #print("Shape of X_scaled :", X_scaled.shape)
-    #print("Shape of y :", y.shape)
+    print("Shape of X :", X_scaled.shape)
+    print("Shape of y :", y.shape)
     
     # Reset the indices of X_scaled and y (just in case there are any index issues)
     X_scaled = X_scaled.to_numpy() 
-    y = y.to_numpy() 
-    
-    ## Do the cross validation spilts outside so that the variance in accuracy metric is purely because of re-sampling algo
-    #kf = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
+    y = y.to_numpy()    
        
     # Lists to store metrics across the folds
     test_precision = []
     test_recall = []
-    
+    test_gmean = []
     test_roc_auc = []
     roc_data_list = [] 
     roc_data_list_m = []
@@ -61,16 +65,65 @@ def train_model(X_scaled, y, model, resample_model, path, version, splits):
         pd.DataFrame(y_train).to_csv(path + "/y_train_"+str(fold_num) + ".zip", index=False, compression="zip")
                         
         # Count occurrences of 0s and 1s
-        #print(f"y_train Count of 0s: {np.bincount(y_train)[0]} || Count of 1s: {np.bincount(y_train)[1]}")
+        print(f"y_train Count of 0s: {np.bincount(y_train)[0]} || Count of 1s: {np.bincount(y_train)[1]}")
                        
-        #print("Shape of X_train :", X_train.shape)
-        #print("Shape of y_train :", y_train.shape)
-        #print("  ")
-        #print("Shape of X_test :", X_test.shape)
-        #print("Shape of y_test :", y_test.shape)           
+        print("Shape of X_train :", X_train.shape)
+        print("Shape of y_train :", y_train.shape)
+        print("  ")
+        print("Shape of X_test :", X_test.shape)
+        print("Shape of y_test :", y_test.shape)           
+        
+        print("Type of resample_model objct when given config :", type(resample_model))
         
         ## Apply your resampling algo here - ONLY ON TRAIN DATA - THIS WILL ENSURE NO DATA LEAKAGE
-        if resample_model == "smotten_sf_mfs_p":
+        if isinstance(resample_model, dict):  #type(resample_model) == "smote_msfb":
+            
+            print("Triggering the smote_msfb pipeline.")
+            resample_model_file = "smote_msfb"
+            
+            
+            ## File path where the file should be stored
+            X_train_file_path = path + "/X_train_upd_"+str(resample_model_file)+"_"+str(fold_num)+"_resampled_data.zip"
+            y_train_file_path = path + "/y_train_upd_"+str(resample_model_file)+"_"+str(fold_num)+"_resampled_data.zip"
+            
+            if ( os.path.exists(X_train_file_path) & os.path.exists(y_train_file_path) ):
+            ## Case 1 - if the resampled file already exists in the folder. then just read that file
+                print(f"File found: Resampled x_train_upd for fold {fold_num} for {resample_model} {X_train_file_path}")
+                
+                X_train_upd_pd = pd.read_csv(X_train_file_path) #, index_col=0)
+                y_train_upd_pd = pd.read_csv(y_train_file_path) #, index_col=0)
+                
+                X_train_upd = np.array(X_train_upd_pd)
+                y_train_upd = np.array(y_train_upd_pd).ravel()
+                
+                print("Shape of the X-resampled file read from disk :", X_train_upd.shape)
+                print("Shape of the Y-resampled file read from disk :", y_train_upd.shape)
+                
+            else:
+            ## Case 2 - if the resampled file does not exists in the folder. Do the resampling and store the file
+                print("This should come only once ----> performing resampling via "+str(resample_model)+" and storing the file "+str(fold_num))
+                
+                ### The code expects a config yaml file for smote_msfb to kept in the smote_msfb_config folder in the ouput folder
+                #with open(path + "/smote_msfb_config/config.yaml", "r") as f:
+                #    config = yaml.safe_load(f)
+                
+                config = resample_model                
+                
+                ## Resampling code                               
+                start = time.perf_counter()
+                
+                X_train_upd , y_train_upd = smote_msfb(X_train, y_train, config)
+                
+                end = time.perf_counter()
+                print(f"Resampling took {resample_model_file} : {end - start:.3f} seconds")
+                
+                resampling_time.append([ str(resample_model_file), str(fold_num), (end - start) ])
+                
+                print("Shape of the file written to disk :", X_train_upd.shape)
+                pd.DataFrame(X_train_upd).to_csv(path + "/X_train_upd_"+str(resample_model_file)+"_"+str(fold_num)+"_resampled_data.zip", index=False, compression="zip")
+                pd.DataFrame(y_train_upd).to_csv(path + "/y_train_upd_"+str(resample_model_file)+"_"+str(fold_num)+"_resampled_data.zip", index=False, compression="zip")
+            
+        elif resample_model == "smotten_sf_mfs_p":
             
             ## File path where the file should be stored
             X_train_file_path = path + "/X_train_upd_"+str(resample_model)+"_"+str(fold_num)+"_resampled_data.zip"
@@ -80,8 +133,8 @@ def train_model(X_scaled, y, model, resample_model, path, version, splits):
             ## Case 1 - if the resampled file already exists in the folder. then just read that file
                 print(f"File found: Resampled x_train_upd for fold {fold_num} for {resample_model} {X_train_file_path}")
                 
-                X_train_upd_pd = pd.read_csv(X_train_file_path, index_col=0)
-                y_train_upd_pd = pd.read_csv(y_train_file_path, index_col=0)
+                X_train_upd_pd = pd.read_csv(X_train_file_path)#, index_col=0)
+                y_train_upd_pd = pd.read_csv(y_train_file_path)#, index_col=0)
                 
                 X_train_upd = np.array(X_train_upd_pd)
                 y_train_upd = np.array(y_train_upd_pd).ravel()
@@ -121,8 +174,8 @@ def train_model(X_scaled, y, model, resample_model, path, version, splits):
             ## Case 1 - if the resampled file already exists in the folder. then just read that file
                 print(f"File found: Resampled x_train_upd for fold {fold_num} for {resample_model} {X_train_file_path}")
                 
-                X_train_upd_pd = pd.read_csv(X_train_file_path, index_col=0)
-                y_train_upd_pd = pd.read_csv(y_train_file_path, index_col=0)
+                X_train_upd_pd = pd.read_csv(X_train_file_path) #, index_col=0)
+                y_train_upd_pd = pd.read_csv(y_train_file_path) #, index_col=0)
                 
                 X_train_upd = np.array(X_train_upd_pd)
                 y_train_upd = np.array(y_train_upd_pd).ravel()
@@ -162,8 +215,8 @@ def train_model(X_scaled, y, model, resample_model, path, version, splits):
             ## Case 1 - if the resampled file already exists in the folder. then just read that file
                 print(f"File found: Resampled x_train_upd for fold {fold_num} for {resample_model} {X_train_file_path}")
                 
-                X_train_upd_pd = pd.read_csv(X_train_file_path, index_col=0)
-                y_train_upd_pd = pd.read_csv(y_train_file_path, index_col=0)
+                X_train_upd_pd = pd.read_csv(X_train_file_path) #, index_col=0)
+                y_train_upd_pd = pd.read_csv(y_train_file_path) #, index_col=0)
                 
                 X_train_upd = np.array(X_train_upd_pd)
                 y_train_upd = np.array(y_train_upd_pd).ravel()
@@ -217,8 +270,8 @@ def train_model(X_scaled, y, model, resample_model, path, version, splits):
             if ( os.path.exists(X_train_file_path) & os.path.exists(y_train_file_path) ):
             ## Case 1 - if the resampled file already exists in the folder. then just read that file
                 print(f"File found: Resampled x_train_upd for fold {fold_num} for {resample_model} {X_train_file_path}")
-                X_train_upd_pd = pd.read_csv(X_train_file_path, index_col=0)
-                y_train_upd_pd = pd.read_csv(y_train_file_path, index_col=0)
+                X_train_upd_pd = pd.read_csv(X_train_file_path) #, index_col=0)
+                y_train_upd_pd = pd.read_csv(y_train_file_path) #, index_col=0)
                 
                 X_train_upd = np.array(X_train_upd_pd)
                 y_train_upd = np.array(y_train_upd_pd).ravel()
@@ -282,6 +335,7 @@ def train_model(X_scaled, y, model, resample_model, path, version, splits):
         precision = precision_score(y_test, y_pred)
         recall = recall_score(y_test, y_pred)
         fpr, tpr, thresholds = roc_curve(y_test, y_prob)
+        gmean = geometric_mean_score(y_test, y_pred, average='binary')
         
         common_thresholds = np.linspace(0, 1, 101)  # 0.00 to 1.00 in steps of 0.01
         fpr_m, tpr_m = manual_roc_points(y_test, y_prob, common_thresholds)
@@ -315,16 +369,19 @@ def train_model(X_scaled, y, model, resample_model, path, version, splits):
         test_precision.append(precision)
         test_recall.append(recall)  
         test_roc_auc.append(roc_auc)
+        test_gmean.append(gmean)
 
     # Calculate average metrics across all folds
     avg_precision = np.mean(test_precision)
     avg_recall = np.mean(test_recall)
     avg_roc_auc = np.mean(test_roc_auc)
+    avg_gmean = np.mean(test_gmean)
 
     # Print the metrics
-    print(version," - Average Precision across 10 folds:", avg_precision)
-    print(version," - Average Recall across 10 folds:", avg_recall)
-    print(version," - Average ROC-AUC across 10 folds:", avg_roc_auc)    
+    print(version," - Average Precision across cv folds:", avg_precision)
+    print(version," - Average Recall across cv folds:", avg_recall)
+    print(version," - Average ROC-AUC across cv folds:", avg_roc_auc)    
+    print(version," - Average Gmean across cv folds:", avg_roc_auc)    
     
     roc_data_all_folds = pd.concat(roc_data_list, ignore_index=True)
     roc_data_all_folds_m = pd.concat(roc_data_list_m, ignore_index=True)
@@ -333,13 +390,15 @@ def train_model(X_scaled, y, model, resample_model, path, version, splits):
     metrics_df = pd.DataFrame({
         'Precision': test_precision,
         'Recall': test_recall,
-        'ROC_AUC': test_roc_auc,      
+        'ROC_AUC': test_roc_auc,  
+        'Gmean': test_gmean
     })
     
     cv_metrics_df = pd.DataFrame({
         'Avg_Precision': [avg_precision],
         'Avg_Recall': [avg_recall],
-        'Avg_ROC_AUC': [avg_roc_auc]
+        'Avg_ROC_AUC': [avg_roc_auc],
+        'Avg_Gmean': [avg_gmean]
     })
     
     resampling_time_df = pd.DataFrame(resampling_time, columns=["resample_model", "fold_num", "resample_time"])

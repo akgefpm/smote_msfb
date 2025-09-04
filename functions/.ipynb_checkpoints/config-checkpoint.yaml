@@ -1,7 +1,7 @@
 ### Config file for running the SMOTE-MSFB pipeline ###
 
 main_section:
-  sampling_strategy: 1  ## Balance the no. of minority and majority samples
+  sampling_strategy: 0.25  ## Balance the no. of minority and majority samples
   neighbours_to_consider_for_neighbourhood: 5
 
 get_minority_obs_to_resample:
@@ -17,16 +17,16 @@ feature_selection:
   metric: "mutual_info"
 
 hubness:
-  incorporate_hubness: True
+  incorporate_hubness: False
   top_features_only: True
 
 synthetic_sample_generation:
-  cut_off: 0.75
+  cut_off: 0.20
 
 logging:
-  diagnostic: True
+  diagnostic: False
   level: "INFO"
   save_results: true
 
 ## code for reproduceability 
-random_state: 5463
+random_state: 546398

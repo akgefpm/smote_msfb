@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import math
 import sys
 
-sys.path.append('/repos/smote_msfb/helper_functions')
+sys.path.append('/repos/smote_msfb/functions')
 from weighted_jaccard_distance import weighted_jaccard_distance
 
 

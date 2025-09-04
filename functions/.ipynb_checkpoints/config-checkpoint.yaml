@@ -24,7 +24,7 @@ synthetic_sample_generation:
   cut_off: 0.20
 
 logging:
-  diagnostic: False
+  diagnostic: True
   level: "INFO"
   save_results: true
 

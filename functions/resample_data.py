@@ -158,6 +158,9 @@ def resample_data(x_train, y_train, minority_resample_list, config):
 
             # Normalize to form probabilities
             probs = inv_scores / inv_scores.sum()
+            
+            if config['logging']['diagnostic']:
+                print("Sum of probability metrics given for resampling :", sum(probs))
 
             # Sample without replacement based on probabilities
             minority_resample_list_upd = np.random.choice(

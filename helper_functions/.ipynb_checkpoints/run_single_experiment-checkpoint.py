@@ -119,9 +119,7 @@ def run_single_experiment(path, full_data, mode ="new"):
 
             print(f"{name}: {model}")
             print(f"{resample_name}: {resample_model}")
-            version = resample_name+"_"+name
-            #if resample_name == "smote_msfb1":            
-            #    train_model(x_train, y_train, model, resample_model, path, version, splits)            
+            version = resample_name+"_"+name                   
             train_model(x_train, y_train, model, resample_model, path, version, splits)
         
     return 1

@@ -20,6 +20,7 @@ def get_minority_obs_to_resample(
     """
        
     class_algo = eval(config["get_minority_obs_to_resample"]["classification_model"])
+    
     if config['logging']['diagnostic']:
         print("Classification algo is :",class_algo)
     

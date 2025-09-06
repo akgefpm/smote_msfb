@@ -18,14 +18,12 @@ import time
 import yaml
 
 from manual_roc_points import manual_roc_points
-from visualize_resample import visualize_resample
-from smoten_select_feature import smoten_select_feature
-from minority_focussed_smotten import minority_focussed_smotten
 
 sys.path.append('/repos/smote_msfb/functions')
 
 from smote_msfb import smote_msfb 
 from get_hubness_score_minority_class import get_hubness_score_minority_class
+from smote_msfb_cross_validation import smote_msfb_cross_validation
 
 def train_model(X_scaled, y, model, resample_model, path, version, splits):
     
@@ -101,16 +99,18 @@ def train_model(X_scaled, y, model, resample_model, path, version, splits):
                 
             else:
             ## Case 2 - if the resampled file does not exists in the folder. Do the resampling and store the file
-                print("This should come only once ----> performing resampling via "+str(resample_model)+" and storing the file "+str(fold_num))
-                
-                ### The code expects a config yaml file for smote_msfb to kept in the smote_msfb_config folder in the ouput folder
-                #with open(path + "/smote_msfb_config/config.yaml", "r") as f:
-                #    config = yaml.safe_load(f)
+                print("This should come only once ----> performing resampling via "+str(resample_model)+" and storing the file "+str(fold_num))                         
                 
                 config = resample_model                
                 
                 ## Resampling code                               
                 start = time.perf_counter()
+                
+                ## User Cross validation for determining the best level of cross validation.
+                best_sampling_strategy = smote_msfb_cross_validation(X_train, y_train, config, model, n_splits=4)
+                
+                config['main_section']['sampling_strategy'] = best_sampling_strategy
+                print("Best Sampling Strategy determined from cross validation :",best_sampling_strategy)
                 
                 X_train_upd , y_train_upd = smote_msfb(X_train, y_train, config)
                 
@@ -121,140 +121,7 @@ def train_model(X_scaled, y, model, resample_model, path, version, splits):
                 
                 print("Shape of the file written to disk :", X_train_upd.shape)
                 pd.DataFrame(X_train_upd).to_csv(path + "/X_train_upd_"+str(resample_model_file)+"_"+str(fold_num)+"_resampled_data.zip", index=False, compression="zip")
-                pd.DataFrame(y_train_upd).to_csv(path + "/y_train_upd_"+str(resample_model_file)+"_"+str(fold_num)+"_resampled_data.zip", index=False, compression="zip")
-            
-        elif resample_model == "smotten_sf_mfs_p":
-            
-            ## File path where the file should be stored
-            X_train_file_path = path + "/X_train_upd_"+str(resample_model)+"_"+str(fold_num)+"_resampled_data.zip"
-            y_train_file_path = path + "/y_train_upd_"+str(resample_model)+"_"+str(fold_num)+"_resampled_data.zip"
-            
-            if ( os.path.exists(X_train_file_path) & os.path.exists(y_train_file_path) ):
-            ## Case 1 - if the resampled file already exists in the folder. then just read that file
-                print(f"File found: Resampled x_train_upd for fold {fold_num} for {resample_model} {X_train_file_path}")
-                
-                X_train_upd_pd = pd.read_csv(X_train_file_path)#, index_col=0)
-                y_train_upd_pd = pd.read_csv(y_train_file_path)#, index_col=0)
-                
-                X_train_upd = np.array(X_train_upd_pd)
-                y_train_upd = np.array(y_train_upd_pd).ravel()
-                
-                print("Shape of the file read from disk :", X_train_upd.shape)
-                
-            else:
-            ## Case 2 - if the resampled file does not exists in the folder. Do the resampling and store the file
-                print("This should come only once ----> performing resampling via "+str(resample_model)+" and storing the file "+str(fold_num))
-                
-                ## Resampling code
-                sampling_strategy = {1: (np.bincount(y_train)[0]  - np.bincount(y_train)[1]) }
-                print("sampling strategy :", sampling_strategy)
-                
-                start = time.perf_counter()
-                
-                X_train_upd , y_train_upd = smoten_select_feature(X_train, y_train, sampling_strategy, top_feature_percent=20, k_neighbors=6, random_state=42)
-                
-                end = time.perf_counter()
-                print(f"Resampling took {resample_model} : {end - start:.3f} seconds")
-                
-                resampling_time.append([ str(resample_model), str(fold_num), (end - start) ])
-                
-                print("Shape of the file written to disk :", X_train_upd.shape)
-                pd.DataFrame(X_train_upd).to_csv(path + "/X_train_upd_"+str(resample_model)+"_"+str(fold_num)+"_resampled_data.zip", index=False, compression="zip")
-                pd.DataFrame(y_train_upd).to_csv(path + "/y_train_upd_"+str(resample_model)+"_"+str(fold_num)+"_resampled_data.zip", index=False, compression="zip")
-            
-            #X_train_upd , y_train_upd = create_smoten_sampled_data(y_train, X_train, n_columns, n_cols_imp_var, desired_imbal_ratio)
-        
-        elif resample_model == "minority_focussed_smotten":
-            
-            ## File path where the file should be stored
-            X_train_file_path = path + "/X_train_upd_"+str(resample_model)+"_"+str(fold_num)+"_resampled_data.zip"
-            y_train_file_path = path + "/y_train_upd_"+str(resample_model)+"_"+str(fold_num)+"_resampled_data.zip"
-            
-            if ( os.path.exists(X_train_file_path) & os.path.exists(y_train_file_path) ):
-            ## Case 1 - if the resampled file already exists in the folder. then just read that file
-                print(f"File found: Resampled x_train_upd for fold {fold_num} for {resample_model} {X_train_file_path}")
-                
-                X_train_upd_pd = pd.read_csv(X_train_file_path) #, index_col=0)
-                y_train_upd_pd = pd.read_csv(y_train_file_path) #, index_col=0)
-                
-                X_train_upd = np.array(X_train_upd_pd)
-                y_train_upd = np.array(y_train_upd_pd).ravel()
-                
-                print("Shape of the file read from disk :", X_train_upd.shape)
-                
-            else:
-            ## Case 2 - if the resampled file does not exists in the folder. Do the resampling and store the file
-                print("This should come only once ----> performing resampling via "+str(resample_model)+" and storing the file "+str(fold_num))
-                
-                ## Resampling code
-                sampling_strategy = (np.bincount(y_train)[0]  - np.bincount(y_train)[1])
-                print("sampling strategy :", sampling_strategy)
-                
-                start = time.perf_counter()
-                
-                X_train_upd , y_train_upd = minority_focussed_smotten(X_train, y_train, 
-                                                                      no_of_synthetic_samples_to_be_generated = sampling_strategy, 
-                                                                      neighbours_to_consider_for_neighbourhood = 8)
-                
-                end = time.perf_counter()
-                print(f"Resampling took {resample_model} : {end - start:.3f} seconds")
-                
-                resampling_time.append([ str(resample_model), str(fold_num), (end - start) ])
-                
-                print("Shape of the file written to disk :", X_train_upd.shape)
-                pd.DataFrame(X_train_upd).to_csv(path + "/X_train_upd_"+str(resample_model)+"_"+str(fold_num)+"_resampled_data.zip", index=False, compression="zip")
-                pd.DataFrame(y_train_upd).to_csv(path + "/y_train_upd_"+str(resample_model)+"_"+str(fold_num)+"_resampled_data.zip", index=False, compression="zip")
-        
-        elif resample_model == "minority_focussed_smotten_weighted_jaccard":
-            
-            ## File path where the file should be stored
-            X_train_file_path = path + "/X_train_upd_"+str(resample_model)+"_"+str(fold_num)+"_resampled_data.zip"
-            y_train_file_path = path + "/y_train_upd_"+str(resample_model)+"_"+str(fold_num)+"_resampled_data.zip"
-            
-            if ( os.path.exists(X_train_file_path) & os.path.exists(y_train_file_path) ):
-            ## Case 1 - if the resampled file already exists in the folder. then just read that file
-                print(f"File found: Resampled x_train_upd for fold {fold_num} for {resample_model} {X_train_file_path}")
-                
-                X_train_upd_pd = pd.read_csv(X_train_file_path) #, index_col=0)
-                y_train_upd_pd = pd.read_csv(y_train_file_path) #, index_col=0)
-                
-                X_train_upd = np.array(X_train_upd_pd)
-                y_train_upd = np.array(y_train_upd_pd).ravel()
-                
-                print("Shape of the file read from disk :", X_train_upd.shape)
-                
-            else:
-            ## Case 2 - if the resampled file does not exists in the folder. Do the resampling and store the file
-                print("This should come only once ----> performing resampling via "+str(resample_model)+" and storing the file "+str(fold_num))
-                
-                ## Resampling code
-                sampling_strategy = (np.bincount(y_train)[0]  - np.bincount(y_train)[1])
-                print("sampling strategy :", sampling_strategy)
-                
-                # Print class counts before resampling
-                print("Before resampling - label 0 (majority):", (y_train == 0).sum(),
-                          ", label 1 (minority):", (y_train == 1).sum())
-                
-                start = time.perf_counter()
-                
-                X_train_upd , y_train_upd = minority_focussed_smotten(X_train, y_train, 
-                                                                      no_of_synthetic_samples_to_be_generated = sampling_strategy, 
-                                                                      neighbours_to_consider_for_neighbourhood = 5)
-                
-                end = time.perf_counter()
-                
-                # Print class counts after resampling
-                print("After resampling - label 0 (majority):", (y_train_upd == 0).sum(),
-                      ", label 1 (minority):", (y_train_upd == 1).sum())
-                
-                print(f"Resampling took {resample_model} : {end - start:.3f} seconds")
-                
-                resampling_time.append([ str(resample_model), str(fold_num), (end - start) ])
-                
-                print("Shape of the file written to disk :", X_train_upd.shape)
-                pd.DataFrame(X_train_upd).to_csv(path + "/X_train_upd_"+str(resample_model)+"_"+str(fold_num)+"_resampled_data.zip", index=False, compression="zip")
-                pd.DataFrame(y_train_upd).to_csv(path + "/y_train_upd_"+str(resample_model)+"_"+str(fold_num)+"_resampled_data.zip", index=False, compression="zip")
-        
+                pd.DataFrame(y_train_upd).to_csv(path + "/y_train_upd_"+str(resample_model_file)+"_"+str(fold_num)+"_resampled_data.zip", index=False, compression="zip")             
         
         elif resample_model == "no_sampling":
             
@@ -262,6 +129,7 @@ def train_model(X_scaled, y, model, resample_model, path, version, splits):
             X_train_upd = X_train
             y_train_upd = y_train               
             
+        ## The standard resample model is provided and should be used. 
         else:            
             ## File path where the file should be stored
             X_train_file_path = path + "/X_train_upd_"+str(resample_model)+"_"+str(fold_num)+"_resampled_data.zip"
@@ -306,8 +174,8 @@ def train_model(X_scaled, y, model, resample_model, path, version, splits):
             
         print(f"y_train_upd Count of 0s: {np.bincount(y_train_upd.astype(int))[0]} || Count of 1s: {np.bincount(y_train_upd.astype(int))[1]}")
         
-        #print("Shape of X_train_upd :", X_train_upd.shape)
-        #print("Shape of y_train_upd :", y_train_upd.shape)
+        print("Shape of X_train_upd :", X_train_upd.shape)
+        print("Shape of y_train_upd :", y_train_upd.shape)
         
         # Fit the model - ON THE RESAMPLED DATA
         model.fit(X_train_upd, y_train_upd)
@@ -321,13 +189,7 @@ def train_model(X_scaled, y, model, resample_model, path, version, splits):
         # Predict on the test set
         y_pred = model.predict(X_test)
         y_prob = model.predict_proba(X_test)[:, 1]  # Probabilities for ROC-AUC
-        
-        ## Put the function to add the visualization plot
-        #visualize_resample(X_train, y_train, X_train_upd, y_train_upd, path, version)
-        
-        #pd.DataFrame(y_test).to_csv(path + "/y_test_"+str(version)+"_"+str(fold_num)+".csv")
-        #pd.DataFrame(y_pred).to_csv(path + "/y_pred_"+str(version)+"_"+str(fold_num)+".csv")
-        
+                
         # This file has probabilities of each observation
         pd.DataFrame(y_prob).to_csv(path + "/y_prob_"+str(version)+"_"+str(fold_num)+".zip", index=False, compression="zip")
         
@@ -360,11 +222,7 @@ def train_model(X_scaled, y, model, resample_model, path, version, splits):
         roc_data_list_m.append(roc_df_m) 
         
         roc_auc = auc(fpr, tpr)
-        
-        #print("test_precision for ",version," ",test_precision)
-        #print("test_recall for", version, " ", test_recall)
-        #print("test_roc_auc for", version, " ", roc_auc)
-        
+               
         # Append the metrics to their respective lists
         test_precision.append(precision)
         test_recall.append(recall)  

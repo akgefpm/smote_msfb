@@ -7,8 +7,9 @@ main_section:
 
 ## Section helps in identifying the minority samples to be used for generating synthetic samples. 
 get_minority_obs_to_resample:
+  filter_anamoly: True
   classification_model: "LogisticRegression(max_iter=1000)"  #"DecisionTreeClassifier(max_depth=2, random_state=42)"
-  limit_miss_classificaiton_prob: 0.5  ##   
+  limit_miss_classification_prob: 0.5  ##   
   prob_threshold: 0.1  ## Noise case 1 <- For identifying the samples which are to be EXCLUDED of synthetic data generation
   fallback_threshold: 0.05
   n_estimators: 4

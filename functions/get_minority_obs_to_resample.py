@@ -3,6 +3,10 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import BaggingClassifier
 from sklearn.model_selection import cross_val_predict
 import numpy as np
+import sys
+
+sys.path.append('/repos/smote_msfb/functions')
+from filter_anomalous_minority_samples import filter_anomalous_minority_samples
 
 def get_minority_obs_to_resample(
     x_train, y_train,
@@ -42,15 +46,31 @@ def get_minority_obs_to_resample(
         n_jobs=-1
     )[:, 1]  # Probability of class 1
 
-    # Find minority class samples
-    minority_indices = np.where(y_train == 1)[0]
+    ## Code to remove anamoly samples from the minority samples. 
+    if config['get_minority_obs_to_resample']['filter_anamoly']:
+        ## Step 1: Filter anomalous minority samples from the data
+        valid_minority_indices = filter_anomalous_minority_samples(
+        x_train, y_train,
+        contamination=config["get_minority_obs_to_resample"].get("anomaly_contamination", 0.05),
+        random_state=config["random_state"]
+        )
+    
+        if config['logging']['diagnostic']:
+            total_minority = np.sum(y_train==1)
+            print(f"Total minority samples before anomaly filtering: {total_minority}")
+            print(f"Minority samples after anomaly filtering: {len(valid_minority_indices)}")
+    
+        # Find minority class samples
+        minority_indices = valid_minority_indices 
+    else:
+        minority_indices = np.where(y_train == 1)[0]
 
     # Identify misclassified minority samples - 
-    miscls = [i for i in minority_indices if y_proba_cv[i] <= config["get_minority_obs_to_resample"]["limit_miss_classificaiton_prob"] ]
+    miscls = [i for i in minority_indices if y_proba_cv[i] <= config["get_minority_obs_to_resample"]["limit_miss_classification_prob"] ]
     
     if len(miscls) == 0:
         if config['logging']['diagnostic']:
-            print(f"All minority class samples are getting classified correctly using {config['get_minority_obs_to_resample']['limit_miss_classificaiton_prob']:.2f} probability limit. Using a higher probability limit for identifying lower probability samples.")
+            print(f"All minority class samples are getting classified correctly using {config['get_minority_obs_to_resample']['limit_miss_classification_prob']:.2f} probability limit. Using a higher probability limit for identifying lower probability samples.")
         miscls = [i for i in minority_indices if y_proba_cv[i] <= config["get_minority_obs_to_resample"]["limit_miss_classificaiton_prob_revised"] ]
 
     if config['logging']['diagnostic']:

@@ -3,6 +3,7 @@ Pending Steps:-
 
 Rerun Enron metrics. 
 
+0. Setup different configs for different experiments - code this functionality
 1. setup all the experimentation codes for all datasets
 2. solve corel5k :)
 

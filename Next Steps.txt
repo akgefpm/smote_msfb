@@ -42,3 +42,13 @@ COMPLETED ITEMS:
 3. Cross validation to determine the best level of resampling <- To be done later. [This piece will come in handy to handles cases with severe immbalance and very small minority samples datasets.] -----> COMPLETED
 
 5. Removing noise from the minority samples before identifying the samples for resamples is also very important -> If we generate synthetic samples from samples which are noise it may add more noise to the dataset only. Use Isolation Forest for identifying the samples which are noise/outliers and do NOT use them for synthetic sample generation. -----> COMPLETED
+
+6. As we are using anamoly detection on the minority sample, there is no need to do a post prediction noise removal (minority samples with very low prediction probability) from the dataset. 
+
+
+
+1. A very simple but completely different idea would be:
+    a) Purify the seeds
+    b) Find appropriate majority sample <- this is based on the classficiation algorithm used. Different algorithms will have different majority samples identified. [undersampling piece]
+        -> 
+    c) Use CV to determine the level of resampling

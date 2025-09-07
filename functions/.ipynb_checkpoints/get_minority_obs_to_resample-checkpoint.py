@@ -70,7 +70,7 @@ def get_minority_obs_to_resample(
     
     if len(miscls) == 0:
         if config['logging']['diagnostic']:
-            print(f"All minority class samples are getting classified correctly using {config['get_minority_obs_to_resample']['limit_miss_classification_prob']:.2f} probability limit. Using a higher probability limit for identifying lower probability samples.")
+            print(f"All minority class samples are getting classified correctly using {config['get_minority_obs_to_resample']['limit_miss_classification_prob']:.2f} probability limit. No applying any lower filter")
         miscls = [i for i in minority_indices if y_proba_cv[i] <= config["get_minority_obs_to_resample"]["limit_miss_classification_prob_revised"] ]
 
     if config['logging']['diagnostic']:
@@ -83,9 +83,9 @@ def get_minority_obs_to_resample(
     if len(filtered) / len(minority_indices) < config["get_minority_obs_to_resample"]["min_fraction"]:
         
         if config['logging']['diagnostic']:
-            print(f"Fewer than {config['get_minority_obs_to_resample']['min_fraction']} samples after filtering with threshold {config['get_minority_obs_to_resample']['prob_threshold']}. Lowering to {config['get_minority_obs_to_resample']['fallback_threshold']}.")
-        
-        filtered = [i for i in miscls if y_proba_cv[i] >= config["get_minority_obs_to_resample"]["fallback_threshold"]]
+            print(f"Fewer than {config['get_minority_obs_to_resample']['min_fraction']} samples after filtering with threshold {config['get_minority_obs_to_resample']['prob_threshold']}. Not using any noise removal filters.")        
+        #filtered = [i for i in miscls if y_proba_cv[i] >= config["get_minority_obs_to_resample"]["fallback_threshold"]]
+        filtered = miscls
 
     # Reporting
     if config['logging']['diagnostic']:

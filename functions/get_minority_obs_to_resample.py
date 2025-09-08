@@ -68,11 +68,15 @@ def get_minority_obs_to_resample(
     # Identify misclassified minority samples - 
     miscls = [i for i in minority_indices if y_proba_cv[i] <= config["get_minority_obs_to_resample"]["limit_miss_classification_prob"] ]
     
+    ## If no minority samples are missclassified using 0.5 prob filter, Find missclassified samples using 0.8 prob limit
     if len(miscls) == 0:
         if config['logging']['diagnostic']:
             print(f"All minority samples classified correctly using {config['get_minority_obs_to_resample']['limit_miss_classification_prob']:.2f} prob limit. Applying a higher filter.")
         miscls = [i for i in minority_indices if y_proba_cv[i] <= config["get_minority_obs_to_resample"]["limit_miss_classification_prob_revised"] ]
-    else:
+    
+    ## If not minority samples are missclassified using 0.8 prob limit, Use the full minority class samples for resampling. 
+    ## This negates any gains from resampling the focussed resampling. But we do not have a choice
+    if len(miscls) == 0:
         print("All minority samples correctly classifed at lower filter as well. Using the full minorty class for resampling.")
         miscls = minority_indices
     

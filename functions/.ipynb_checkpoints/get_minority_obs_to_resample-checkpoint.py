@@ -70,9 +70,12 @@ def get_minority_obs_to_resample(
     
     if len(miscls) == 0:
         if config['logging']['diagnostic']:
-            print(f"All minority class samples are getting classified correctly using {config['get_minority_obs_to_resample']['limit_miss_classification_prob']:.2f} probability limit. No applying any lower filter")
+            print(f"All minority samples classified correctly using {config['get_minority_obs_to_resample']['limit_miss_classification_prob']:.2f} prob limit. Applying a higher filter.")
         miscls = [i for i in minority_indices if y_proba_cv[i] <= config["get_minority_obs_to_resample"]["limit_miss_classification_prob_revised"] ]
-
+    else:
+        print("All minority samples correctly classifed at lower filter as well. Using the full minorty class for resampling.")
+        miscls = minority_indices
+    
     if config['logging']['diagnostic']:
         print("Final no. of incorrectly classified samples from bagging filter :",len(miscls))    
     

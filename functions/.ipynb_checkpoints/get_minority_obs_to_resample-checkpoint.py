@@ -1,5 +1,7 @@
 from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import BernoulliNB
 from sklearn.tree import DecisionTreeClassifier
+
 from sklearn.ensemble import BaggingClassifier
 from sklearn.model_selection import cross_val_predict
 import numpy as np

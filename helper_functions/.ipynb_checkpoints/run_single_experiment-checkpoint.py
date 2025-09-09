@@ -81,8 +81,8 @@ def run_single_experiment(path, full_data, mode ="new"):
     # Dictionary of models
     models = {
     "logistic_regression": LogisticRegression(penalty='l2', random_state=42),    # class_weight='balanced',      
-    "naive_bayes": BernoulliNB(),    
-    "knn_jaccard": KNeighborsClassifier(n_neighbors=5, metric=jaccard_distance)     
+    "naive_bayes": BernoulliNB() #,    
+    #"knn_jaccard": KNeighborsClassifier(n_neighbors=5, metric=jaccard_distance)     
     }    
     
 #     models = {

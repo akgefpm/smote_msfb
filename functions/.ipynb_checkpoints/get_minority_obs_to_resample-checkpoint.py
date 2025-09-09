@@ -66,43 +66,28 @@ def get_minority_obs_to_resample(
         minority_indices = valid_minority_indices 
     else:
         minority_indices = np.where(y_train == 1)[0]
-
-    # Identify misclassified minority samples - 
-    miscls = [i for i in minority_indices if y_proba_cv[i] <= config["get_minority_obs_to_resample"]["limit_miss_classification_prob"] ]
     
-    ## If no minority samples are missclassified using 0.5 prob filter, Find missclassified samples using 0.8 prob limit
-    if len(miscls) == 0:
-        if config['logging']['diagnostic']:
-            print(f"All minority samples classified correctly using {config['get_minority_obs_to_resample']['limit_miss_classification_prob']:.2f} prob limit. Applying a higher filter.")
-        miscls = [i for i in minority_indices if y_proba_cv[i] <= config["get_minority_obs_to_resample"]["limit_miss_classification_prob_revised"] ]
+    # Get the predicted probabilities for the minority class samples only
+    minority_probs = y_proba_cv[minority_indices]
+    
+    print('=====================================================================')
+    print('Total no. of minority samples in the data :', len(minority_indices))
+
+    # Calculate the actual probability values at these percentiles
+    lower_thresh = np.percentile(minority_probs, config["get_minority_obs_to_resample"]['hard_classify_lower_limit'])
+    upper_thresh = np.percentile(minority_probs, config["get_minority_obs_to_resample"]['hard_classify_upper_limit'])
+
+    # Select indices of minority samples within these percentiles
+    percentile_mask = (minority_probs >= lower_thresh) & (minority_probs <= upper_thresh)
+    hard_minority_indices = minority_indices[percentile_mask]                    
+    
+    print('Total no. of hard minority samples identified for resampling :', len(hard_minority_indices))
+    print('=====================================================================')
     
     ## If not minority samples are missclassified using 0.8 prob limit, Use the full minority class samples for resampling. 
     ## This negates any gains from resampling the focussed resampling. But we do not have a choice
-    if len(miscls) == 0:
-        print("All minority samples correctly classifed at lower filter as well. Using the full minorty class for resampling.")
-        miscls = minority_indices
-    
-    if config['logging']['diagnostic']:
-        print("Final no. of incorrectly classified samples from bagging filter :",len(miscls))    
-    
-    # Filter by predicted probability
-    filtered = [i for i in miscls if y_proba_cv[i] >= config["get_minority_obs_to_resample"]["prob_threshold"] ]
-
-    # Fallback if too few filtered
-    if len(filtered) / len(minority_indices) < config["get_minority_obs_to_resample"]["min_fraction"]:
-        
-        if config['logging']['diagnostic']:
-            print(f"Fewer than {config['get_minority_obs_to_resample']['min_fraction']} samples after filtering with threshold {config['get_minority_obs_to_resample']['prob_threshold']}. Not using any noise removal filters.")        
-        #filtered = [i for i in miscls if y_proba_cv[i] >= config["get_minority_obs_to_resample"]["fallback_threshold"]]
-        filtered = miscls
-
-    # Reporting
-    if config['logging']['diagnostic']:
-        print(f"Total minority samples: {len(minority_indices)}")
-        print(f"Misclassified by bagged classification models: {len(miscls)}")
-        print(f"After filtering proba < {config['get_minority_obs_to_resample']['prob_threshold']:.2f}: {len(filtered)} remain")
-
-    # Also return probabilities for filtered samples
-    filtered_probs = [y_proba_cv[i] for i in filtered]
-
-    return filtered, filtered_probs
+    if len(hard_minority_indices) == 0:
+        print("No minority samples identified as hard to classify.Resetting to the full minority samples")
+        hard_minority_indices = minority_indices      
+            
+    return hard_minority_indices

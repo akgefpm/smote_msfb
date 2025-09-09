@@ -9,7 +9,7 @@ def smote_msfb(x_train, y_train,
     x_train = np.array(x_train)
     y_train = np.array(y_train)         
     
-    resample_idx, sample_probs_global = get_minority_obs_to_resample(x_train, y_train, config)
+    resample_idx = get_minority_obs_to_resample(x_train, y_train, config)
     
     x_train_upd, y_train_upd = resample_data(x_train, y_train, 
                                              resample_idx, 

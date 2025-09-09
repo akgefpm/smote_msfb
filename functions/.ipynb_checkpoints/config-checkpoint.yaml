@@ -7,19 +7,17 @@ main_section:
 
 ## Section helps in identifying the minority samples to be used for generating synthetic samples. 
 get_minority_obs_to_resample:
-  filter_anamoly: True
+  filter_anamoly: False
   classification_model: "BernoulliNB()" #LogisticRegression(max_iter=1000)"  #"DecisionTreeClassifier(max_depth=2, random_state=42)"
-  limit_miss_classification_prob: 0.5     
-  limit_miss_classification_prob_revised: 0.8
-  prob_threshold: 0.0  ## Noise case 1 <- For identifying the samples which are to be EXCLUDED of synthetic data generation
-  fallback_threshold: 0.00
+  hard_classify_upper_limit: 50
+  hard_classify_lower_limit: 20
   n_estimators: 4
   cv: 4
   min_fraction: 0.05
 
 ## Metrics used for identifying the relevant features for neighbourhood definition
 feature_selection:
-  Percent_MI: 0.95      ## Proportion of MI contributed by top features
+  Percent_MI: 0.95 ## Proportion of MI contributed by top features
   metric: "mutual_info" ## FI importance criteria used
 
 ## Metrics for incorporating hubness into the algorithm

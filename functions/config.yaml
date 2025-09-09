@@ -8,7 +8,7 @@ main_section:
 ## Section helps in identifying the minority samples to be used for generating synthetic samples. 
 get_minority_obs_to_resample:
   filter_anamoly: False
-  classification_model: "BernoulliNB()" #LogisticRegression(max_iter=1000)"  #"DecisionTreeClassifier(max_depth=2, random_state=42)"
+  classification_model: "LogisticRegression(max_iter=1000)" #"BernoulliNB()" #"  #"DecisionTreeClassifier(max_depth=2, random_state=42)"
   hard_classify_upper_limit: 50
   hard_classify_lower_limit: 20
   n_estimators: 4

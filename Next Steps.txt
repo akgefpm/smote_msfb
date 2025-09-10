@@ -2,7 +2,7 @@
 
 generate summaries for the revised datasets
 
-bibtex
+bibtex - t
 corel
 bookmarks
 delicious

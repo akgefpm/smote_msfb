@@ -24,7 +24,7 @@ def summarize_dataset_with_hubness(data, feature_prefix="f_", target_prefix="tar
         # imbalance stats
         counts = pd.Series(y).value_counts()
         maj, mino = counts.max(), counts.min()
-        imbalance_ratio = maj / mino if mino > 0 else np.inf
+        imbalance_ratio = mino / (mino + maj) if mino > 0 else np.inf
 
         result = {
             "target": target,

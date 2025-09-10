@@ -3,9 +3,9 @@
 generate summaries for the revised datasets
 
 bibtex - t
-corel
-bookmarks
-delicious
+corel - T
+bookmarks - t
+delicious - T
 Enron
 genbase
 medical

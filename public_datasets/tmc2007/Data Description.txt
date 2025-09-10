@@ -10,6 +10,25 @@ files: [tmc2007-500.rar]
 source: A. Srivastava, B. Zane-Ulman: Discovering recurring anomalies in text reports regarding complex space systems. In: 2005 IEEE Aerospace Conference. (2005)
 related URL: SIAM Text Mining Workshop 2007
 
+
+13 columns selected
+
+target_1: proportion of 1s = 0.0656
+target_4: proportion of 1s = 0.1369
+target_5: proportion of 1s = 0.2680
+target_6: proportion of 1s = 0.0780
+target_7: proportion of 1s = 0.0995
+target_9: proportion of 1s = 0.0509
+target_11: proportion of 1s = 0.1495
+target_12: proportion of 1s = 0.0996
+target_13: proportion of 1s = 0.0578
+target_15: proportion of 1s = 0.0437
+target_17: proportion of 1s = 0.0521
+target_18: proportion of 1s = 0.2984
+target_19: proportion of 1s = 0.0306
+
+
+
 class01: 0's = 0.9344, 1's = 0.0656
 class02: 0's = 0.4344, 1's = 0.5656
 class03: 0's = 0.9785, 1's = 0.0215

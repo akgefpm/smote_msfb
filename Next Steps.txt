@@ -6,12 +6,12 @@ bibtex - t
 corel - T
 bookmarks - t
 delicious - T
-Enron
-genbase
-medical
-polarity -> only one response here [NOT REFRESHED]
-scale <- four different datasets and only 1 response [NOT REFRESHED]
-subjectivity <- only one response here [NOT REFRESHED]
+Enron - T
+genbase- T
+medical - T
+polarity -> only one response here [NOT REFRESHED] - T
+scale <- four different datasets and only 1 response [NOT REFRESHED] - T
+subjectivity <- only one response here [NOT REFRESHED] - T
 
 tmc2007 <- fix the target variable
 

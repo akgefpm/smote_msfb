@@ -9,6 +9,16 @@ source: John P. Pestian, Christopher Brew, Pawel Matykiewicz, D. J. Hovermale, N
 name	domain	instances	nominal	numeric	labels	cardinality	density	distinct
 medical	text	978	1449	0	45	1.245	0.028	94
 
+7 variables target
+
+target_1: proportion of 1s = 0.1053
+target_5: proportion of 1s = 0.2720
+target_10: proportion of 1s = 0.1155
+target_25: proportion of 1s = 0.0501
+target_32: proportion of 1s = 0.0716
+target_33: proportion of 1s = 0.1401
+target_42: proportion of 1s = 0.0808
+
 
 
 Class-0-593_70: 0's = 0.8947, 1's = 0.1053

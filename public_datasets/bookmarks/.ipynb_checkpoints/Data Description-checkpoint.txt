@@ -10,6 +10,31 @@ No. of target variables - 208
 No. of features - 2150
 
 
+target_14: proportion of 1s = 0.0377
+target_16: proportion of 1s = 0.0201
+target_21: proportion of 1s = 0.0703
+target_32: proportion of 1s = 0.0294
+target_87: proportion of 1s = 0.0257
+target_88: proportion of 1s = 0.0256
+target_90: proportion of 1s = 0.0218
+target_101: proportion of 1s = 0.0248
+target_110: proportion of 1s = 0.0238
+target_117: proportion of 1s = 0.0226
+target_120: proportion of 1s = 0.0286
+target_125: proportion of 1s = 0.0249
+target_139: proportion of 1s = 0.0246
+target_145: proportion of 1s = 0.0254
+target_147: proportion of 1s = 0.0210
+target_148: proportion of 1s = 0.0255
+target_161: proportion of 1s = 0.0225
+target_171: proportion of 1s = 0.0471
+target_183: proportion of 1s = 0.0428
+target_193: proportion of 1s = 0.0771
+target_198: proportion of 1s = 0.0322
+target_199: proportion of 1s = 0.0369
+
+
+
 
 TAG_20: 0's = 0.9946, 1's = 0.0054
 TAG_academic: 0's = 0.9904, 1's = 0.0096

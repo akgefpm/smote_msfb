@@ -1,3 +1,5 @@
 Data description
 
 https://www.cs.cornell.edu/people/pabo/movie-review-data/
+
+ONLY 1 TARGET VARIABLE HERE

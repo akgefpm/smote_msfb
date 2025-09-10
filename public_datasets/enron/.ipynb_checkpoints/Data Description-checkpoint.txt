@@ -9,6 +9,27 @@ enron
 files (sparse): Train and test sets along with their union, the XML header and a file describing the categories [enron.rar]
 sources: a) Jesse Read's Web Page, b) UC Berkeley Enron Email Analysis Project
 
+
+There is score to increase the no. of variables. 15 response variables.
+
+target_5: proportion of 1s = 0.0635
+target_7: proportion of 1s = 0.1157
+target_12: proportion of 1s = 0.3132
+target_13: proportion of 1s = 0.0734
+target_14: proportion of 1s = 0.0969
+target_15: proportion of 1s = 0.1240
+target_21: proportion of 1s = 0.0629
+target_22: proportion of 1s = 0.1034
+target_24: proportion of 1s = 0.0564
+target_26: proportion of 1s = 0.3995
+target_30: proportion of 1s = 0.0729
+target_40: proportion of 1s = 0.1463
+target_45: proportion of 1s = 0.0764
+target_47: proportion of 1s = 0.1827
+target_50: proportion of 1s = 0.1193
+
+
+
 A.A8: 0's = 0.9847, 1's = 0.0153
 C.C9: 0's = 0.9624, 1's = 0.0376
 B.B12: 0's = 0.9965, 1's = 0.0035

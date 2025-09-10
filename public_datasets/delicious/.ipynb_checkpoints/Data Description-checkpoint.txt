@@ -2,6 +2,29 @@ delicious
 files (sparse): Train and test sets along with their union and the XML header [delicious.rar]
 source: G. Tsoumakas, I. Katakis, I. Vlahavas, "Effective and Efficient Multilabel Classification in Domains with Large Number of Labels", Proc. ECML/PKDD 2008 Workshop on Mining Multidimensional Data (MMD'08), Antwerp, Belgium, 2008.
 
+--> This dataset has a lot of columns to be added by lower the cut off. Current cut off is 15%
+
+18 target columns
+
+target_100: proportion of 1s = 0.3002
+target_103: proportion of 1s = 0.1714
+target_206: proportion of 1s = 0.1988
+target_241: proportion of 1s = 0.3018
+target_248: proportion of 1s = 0.2300
+target_379: proportion of 1s = 0.2410
+target_453: proportion of 1s = 0.2433
+target_472: proportion of 1s = 0.1844
+target_489: proportion of 1s = 0.1682
+target_701: proportion of 1s = 0.2224
+target_734: proportion of 1s = 0.4033
+target_810: proportion of 1s = 0.3174
+target_877: proportion of 1s = 0.1595
+target_880: proportion of 1s = 0.3659
+target_898: proportion of 1s = 0.1958
+target_942: proportion of 1s = 0.3740
+target_943: proportion of 1s = 0.2089
+target_947: proportion of 1s = 0.1854
+
 
 
 TAG_.imported: 0's = 0.9964, 1's = 0.0036

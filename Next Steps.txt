@@ -1,11 +1,25 @@
 
-Pending Steps:-
 
-Rerun Enron metrics. 
+generate summaries for the revised datasets
+
+bibtex
+corel
+bookmarks
+delicious
+Enron
+genbase
+medical
+polarity -> only one response here [NOT REFRESHED]
+scale <- four different datasets and only 1 response [NOT REFRESHED]
+subjectivity <- only one response here [NOT REFRESHED]
+
+tmc2007 <- fix the target variable
+
+
+Pending Steps:-
 
 0. Setup different configs for different experiments - code this functionality
 1. setup all the experimentation codes for all datasets
-2. solve corel5k :)
 
 Find a more clean way of identifying the minority samples for resampling rather than hardcoded limits of 0.5 and 0.8. How about a S class function using the predicted probability. 
 

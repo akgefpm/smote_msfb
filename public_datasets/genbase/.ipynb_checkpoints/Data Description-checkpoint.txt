@@ -9,6 +9,20 @@ source: S. Diplaris, G. Tsoumakas, P. Mitkas and I. Vlahavas. Protein Classifica
 note: The first attribute in this dataset is just an identification of the instance. There are several attributes with constant values (yes/no).
 
 
+here also there is scope for more variables. 9 variables here.
+
+target_1: proportion of 1s = 0.1193
+target_2: proportion of 1s = 0.1148
+target_3: proportion of 1s = 0.0937
+target_4: proportion of 1s = 0.0740
+target_5: proportion of 1s = 0.2583
+target_8: proportion of 1s = 0.0770
+target_10: proportion of 1s = 0.0997
+target_13: proportion of 1s = 0.0544
+target_18: proportion of 1s = 0.0619
+
+
+
 
 PDOC00154: 0's = 0.8807, 1's = 0.1193
 PDOC00343: 0's = 0.8852, 1's = 0.1148

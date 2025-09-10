@@ -7,6 +7,23 @@ And preprocessed and stored at the location.
 
 It is highly imbalance in terms of response.
 
+FINAL LIST OF RESPONSE VARIABLES
+
+TAG_apob: 1's proportion = 0.0396
+TAG_bibteximport: 1's proportion = 0.0706
+TAG_design: 1's proportion = 0.0315
+TAG_evolution: 1's proportion = 0.0398
+TAG_immunoassay: 1's proportion = 0.0338
+TAG_learning: 1's proportion = 0.0415
+TAG_model: 1's proportion = 0.0319
+TAG_ontology: 1's proportion = 0.0315
+TAG_semantic: 1's proportion = 0.0315
+TAG_software: 1's proportion = 0.0599
+TAG_statphys23: 1's proportion = 0.1409
+TAG_web: 1's proportion = 0.0314
+
+---------------------------------------------------------
+
 TAG_2005: 0's = 0.9907, 1's = 0.0093
 TAG_2006: 0's = 0.9822, 1's = 0.0178
 TAG_2007: 0's = 0.9904, 1's = 0.0096

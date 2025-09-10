@@ -8,7 +8,22 @@ More information: http://kobus.ca/research/data/eccv_2002/
 # nominal attributes :- 499
 # labels :- 374
 
+>5% imbalance
 
+mountain: 0's = 0.9310, 1's = 0.0690
+sky: 0's = 0.8024, 1's = 0.1976
+water: 0's = 0.7760, 1's = 0.2240
+clouds: 0's = 0.9440, 1's = 0.0560
+tree: 0's = 0.8106, 1's = 0.1894
+people: 0's = 0.8512, 1's = 0.1488
+grass: 0's = 0.9006, 1's = 0.0994
+buildings: 0's = 0.9076, 1's = 0.0924
+snow: 0's = 0.9404, 1's = 0.0596
+flowers: 0's = 0.9408, 1's = 0.0592
+rocks: 0's = 0.9500, 1's = 0.0500
+
+
+All targets
 
 city: 0's = 0.9846, 1's = 0.0154
 mountain: 0's = 0.9310, 1's = 0.0690

@@ -2,8 +2,8 @@
 
 generate summaries for the revised datasets
 
-bibtex - T
-corel - 
+bibtex - completed
+corel - completed
 bookmarks - T
 delicious - T
 Enron - T

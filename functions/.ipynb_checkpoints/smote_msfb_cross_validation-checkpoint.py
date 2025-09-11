@@ -46,7 +46,7 @@ def smote_msfb_cross_validation(X_train, y_train, config, classification_model, 
     if start_ratio < 0.1:
         start_ratio = 0.1  # safeguard for extreme imbalance
 
-    sampling_strategies = np.round(np.arange(start_ratio, 1.1, 0.1), 2)
+    sampling_strategies = np.round(np.arange(start_ratio+0.05, 1.1, 0.1), 2)
 
     print(f"\nCurrent minority/majority ratio ≈ {current_ratio:.2f}")
     print(f"Testing sampling_strategy values: {sampling_strategies}")

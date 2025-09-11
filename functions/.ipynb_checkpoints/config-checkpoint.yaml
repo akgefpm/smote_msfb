@@ -31,7 +31,7 @@ synthetic_sample_generation:
 
 ## Flag to generate a lot of print statements to check if everything is working or not.  
 logging:
-  diagnostic: True
+  diagnostic: False
   #level: "INFO"
   #save_results: true
 

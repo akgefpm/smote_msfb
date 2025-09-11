@@ -2,16 +2,16 @@
 
 generate summaries for the revised datasets
 
-bibtex - t
-corel - T
-bookmarks - t
+bibtex - T
+corel - 
+bookmarks - T
 delicious - T
 Enron - T
 genbase- T
-medical - T
-polarity -> only one response here [NOT REFRESHED] - T
-scale <- four different datasets and only 1 response [NOT REFRESHED] - T
-subjectivity <- only one response here [NOT REFRESHED] - T
+medical - completed
+polarity - FAILED
+scale - T
+subjectivity - T
 
 tmc2007 <- fix the target variable
 

@@ -81,8 +81,8 @@ def run_single_experiment(path, full_data, mode ="new"):
     # Dictionary of models
     models = {
     "logistic_regression": LogisticRegression(penalty='l2', random_state=42),    # class_weight='balanced',      
-    "naive_bayes": BernoulliNB() #,    
-    #"knn_jaccard": KNeighborsClassifier(n_neighbors=5, metric=jaccard_distance)     
+    "naive_bayes": BernoulliNB(),    
+    "knn_jaccard": KNeighborsClassifier(n_neighbors=5, metric=jaccard_distance)     
     }    
     
 #     models = {
@@ -107,8 +107,8 @@ def run_single_experiment(path, full_data, mode ="new"):
         smote_msfb_config1 = yaml.safe_load(f)
     
     resample_algo = {    
-    "smote_msfb1": smote_msfb_config1#,
-    #"smoten": SMOTEN(random_state=42, k_neighbors = 5), # sampling_strategy = desired_imbal_ratio                
+    "smote_msfb1": smote_msfb_config1,
+    "smoten": SMOTEN(random_state=42, k_neighbors = 5) #, # sampling_strategy = desired_imbal_ratio                
     #"no_sampling": "no_sampling",
     #"random_oversample": RandomOverSampler(random_state=42)    
     }

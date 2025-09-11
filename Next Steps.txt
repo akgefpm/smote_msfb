@@ -9,19 +9,14 @@ delicious - T
 Enron - T
 genbase- T
 medical - completed
-polarity - FAILED
+polarity - T
 scale - T
 subjectivity - T
-
-tmc2007 <- fix the target variable
-
 
 Pending Steps:-
 
 0. Setup different configs for different experiments - code this functionality
 1. setup all the experimentation codes for all datasets
-
-Find a more clean way of identifying the minority samples for resampling rather than hardcoded limits of 0.5 and 0.8. How about a S class function using the predicted probability. 
 
 Key contribution:
 1. A key contribution could be automatically resampling algorithm. Not requiring a lot of things to be done by the user.

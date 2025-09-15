@@ -29,7 +29,8 @@ from smote_msfb_cross_validation import smote_msfb_cross_validation
 
 def train_model(X_scaled, y, model, resample_model, path, version, splits):
     
-    #print(" ")
+    print(f" ============ TRAINING MODELS FOR {model} AND {resample_model}. =================== ")
+    
     print("Shape of X :", X_scaled.shape)
     print("Shape of y :", y.shape)
     

@@ -108,9 +108,9 @@ def run_single_experiment(path, full_data, mode ="new"):
     
     resample_algo = {    
     "smote_msfb1": smote_msfb_config1,
-    "smoten": SMOTEN(random_state=42, k_neighbors = 5) #, # sampling_strategy = desired_imbal_ratio                
-    #"no_sampling": "no_sampling",
-    #"random_oversample": RandomOverSampler(random_state=42)    
+    "smoten": SMOTEN(random_state=42, k_neighbors = 5), # sampling_strategy = desired_imbal_ratio                
+    "no_sampling": "no_sampling",
+    "random_oversample": RandomOverSampler(random_state=42)    
     }
     
     for resample_name, resample_model in resample_algo.items():
